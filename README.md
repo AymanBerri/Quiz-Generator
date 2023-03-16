@@ -1,0 +1,19 @@
+# Quiz Generator
+#### Video Demo:  https://youtu.be/vcx2t1Q81B8
+#### Description: Motivated to make people's lives easier, I came up with the idea for my final project: A program that helps users create physical quizzes effortlessly.
+I will start by explaining all the classes included in the project:<br/>
+**Essay**: used to create essay questions. for a given essay question, this class saves its weight, the question, how many lines the answer area should provide, and whether the lines should be underlined(to make it easier to write on).<br/>
+**MCQ**: used to create multiple-choice questions. for a given MCQ, this class stores its weight, question, and a list of choices that must be at least 2.<br/>
+**Quiz**: Every quiz is three parts: heading, MCQ, and Essay. The heading contains the university name, college, department, duration, whether the user needs the name and/or the id, and an extra part where the user can enter whatever he wants. For the MCQ and Essay parts, the class holds every type of question separately in a list, also every part's total weight.<br/>
+**PDF(FPDF)**: this class takes Quiz objects and prints all the elements on the document. For instance, the method "PDF.desc()"  prints all non-empty variables of the heading while ignoring any empty variables on the paper (for example, if the user does not provide the university name, it will not be included). The methods "PDF.add_mcq_part()" and "PDF.add_essay_part()" loop through the MCQs and Essays and print all their components.
+
+
+Now let's explain the project.py file. I decided to use three additional methods other than "main()":<br/>
+**"check_valid_num(x)"** is used to validate input when the user enters a number. It takes the number, converts it to float, raises ValueError if negative, returns True if zero, False if a string, and returns the number otherwise. This method forces if-statements to treat zero as a True value. For instance, it is useful when the program requests the duration: if the user enters zero, the if-statement -that would eventually set the duration to zero- will run.<br/>
+**"initialize_quiz(quiz_blueprint)"** takes the dictionary(explained in the next paragraph) as a parameter, creates a Quiz object by passing the dictionary to the Quiz class, finally returning it.<br/>
+**"generate_quiz(q: Quiz ,file_name)"** takes the Quiz object created in the previous method and the file name as a string. It creates a PDF object, adds a page, adds the quiz heading, adds the MCQ and Essay parts, and finally outputs the quiz in a ".pdf" format named with the string passed to it.<br/>
+**"main()"**: Simply put, this method mainly deals with prompting for input and handling exceptions.
+*First*, the method starts by requesting the file name.
+*Second*, it initializes an empty dictionary and populates it with all the heading variables (listed in the Quiz class paragraph) while dealing with exceptions. Exceptions in the heading are: duration must be a non-negative number (Zero duration means the user does not want to include the duration).
+*Third*, the user builds the MCQs after determining how many questions he desires. Every time the user creates an MCQ, it appends to the list of MCQs in the dictionary. Exceptions in the MCQ are: weight must be a non-negative number (zero weight is acceptable), and MCQs must have at least two choices.
+*Finally*, the user constructs the Essays after determining how many he hopes to involve. Every time the user creates an Essay, it appends to the list of Essays in the dictionary. Exceptions in Essays: the weight must be a non-negative number (zero weight is acceptable), and the number of lines included in the answer area must not be under one.
